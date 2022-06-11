@@ -1,7 +1,49 @@
 #root{
     -fx-background-image: url("../images/background.jpg");
     -fx-background-repeat: no-repeat;
-    -fx-background-size: 800 600;
+    -fx-background-size: 1920 1080;
     -fx-background-position: center center;
 }
 
+#minWindow{
+    -fx-background-color: #00000000;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Fira Code";
+    -fx-pref-width: 55;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+}
+
+#minWindow:hover{
+    -fx-background-color: #444444;
+
+}
+
+#maxWindow{
+    -fx-background-color: #00000000;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Fira Code";
+    -fx-pref-width: 55;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+}
+
+#maxWindow:hover{
+    -fx-background-color: #444444;
+}
+
+#closeWindow{
+    -fx-background-color: #00000000;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Fira Code";
+    -fx-pref-width: 55;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+}
+
+#closeWindow:hover{
+    -fx-background-color: #e81123;
+}

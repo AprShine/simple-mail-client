@@ -5,8 +5,7 @@ import ui.WelcomeStage;
 
 /**
  * Use:Main主函数类
- * Author:@AprShine
- * Time:2022.6.6
+ * @author AprShine
  */
 public class Main extends Application{
     public static void main(String[] args) {
