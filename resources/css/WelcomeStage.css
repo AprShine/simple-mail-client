@@ -47,3 +47,21 @@
 #closeWindow:hover{
     -fx-background-color: #e81123;
 }
+
+#icon{
+    -fx-background-image: url("../images/icon.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 150 150;
+    -fx-background-position: center center;
+}
+
+#bigMsg{
+    -fx-font-size: 36;
+    -fx-text-fill: white;
+    -fx-font-family: '微软雅黑';
+}
+#smallMsg{
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: '微软雅黑';
+}

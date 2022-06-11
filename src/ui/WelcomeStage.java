@@ -1,8 +1,11 @@
 package ui;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -67,6 +70,20 @@ public class WelcomeStage extends Stage {
         top.getChildren().add(title);
         //内容
         VBox content=new VBox();
+        content.setPrefHeight(770);
+        content.setAlignment(Pos.BASELINE_CENTER);
+        content.setPadding(new Insets(90));
+        HBox icon=new HBox();
+        icon.setPrefHeight(90);
+        icon.setId("icon");
+        Label bigMsg=new Label("欢迎使用邮件");
+        bigMsg.setId("bigMsg");
+        Label smallMsg=new Label("添加账户，马上就可以登录您的邮箱喵~");
+        VBox.setMargin(smallMsg,new Insets(10));
+        smallMsg.setId("smallMsg");
+
+        content.getChildren().addAll(icon,bigMsg,smallMsg);
+
 
         //组装
         root.getChildren().addAll(top,content);
