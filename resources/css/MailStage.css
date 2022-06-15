@@ -1,0 +1,55 @@
+#left{
+    -fx-alignment: baseline_center;
+    -fx-pref-width: 160;
+    -fx-background-image: url("../images/background.jpg");
+    -fx-spacing: 2;
+}
+
+#right{
+    -fx-alignment: center;
+    -fx-pref-width: 640;
+}
+.buttonBox{
+    -fx-alignment: center;
+    -fx-min-width: 160;
+    -fx-min-height: 60;
+    -fx-pref-height: 80;
+    -fx-background-radius: 8;
+
+}
+.buttonBox:hover{
+    -fx-background-color: rgba(20, 74, 134,0.5);
+}
+#buttonBoxClicked{
+    -fx-background-color: rgba(20, 74, 134,0.9);
+}
+.buttonLabel {
+    -fx-font-size: 28;
+    -fx-font-family: '华文行楷';
+    -fx-text-fill: white;
+}
+#table{
+    -fx-min-height: 600;
+    -fx-background-color: rgb(255,248,220);
+    -fx-border-color: rgb(99,184,255);;
+}
+.column{
+    -fx-pref-width: 160;
+}
+/*WritePane CSS*/
+#writePane{
+ -fx-background-color: rgba(118,238,198,0.1);
+}
+#top{
+    -fx-min-height: 80;
+}
+#editor{
+
+}
+#bottom{
+    -fx-min-height: 40;
+    -fx-background-color: rgb(230, 230, 230);
+    -fx-alignment: center-right;
+    -fx-spacing: 15;
+    -fx-padding: 15;
+}

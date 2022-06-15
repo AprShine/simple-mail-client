@@ -21,7 +21,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.MimeBodyPart;
 /**
- * @author Kamlesh
+ * @author AprShine
  *
  */
 public class RetrieveEmailsUsingPOP3 {
@@ -60,6 +60,7 @@ public class RetrieveEmailsUsingPOP3 {
  
             // fetches new messages from server
             Message[] arrayMessages = folderInbox.getMessages();
+            DataBuffer.inboxMail=arrayMessages;
             System.out.println("You have "+arrayMessages.length+" mails in your INBOX");
              
             for (int i = 0; i < arrayMessages.length ; i++) {

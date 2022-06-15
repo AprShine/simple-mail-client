@@ -1,5 +1,7 @@
 package ui;
 
+import core.DataBuffer;
+import core.User;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,8 +27,8 @@ import java.util.regex.Matcher;
 public class LoginStage extends Stage {
     private boolean isRightMailBool = false;
     private boolean isNotNullBool = false;
-    private TextField account = new TextField();
-    private PasswordField pwd = new PasswordField();
+    private final TextField account = new TextField();
+    private final PasswordField pwd = new PasswordField();
 
     public LoginStage() {
         init();
@@ -111,13 +113,17 @@ public class LoginStage extends Stage {
         confirm.setOnAction(event -> {
             //使用异步操作,防止出现未响应
             new Thread(()->{
+                String accountStr=account.getText();
+                String pwdStr=pwd.getText();
                 final ConnectStatus status = RetrieveEmailsUsingPOP3.getConnectionStatus(MailUtil.POP3Domain,
                         MailUtil.POP3SSLPort,
-                        account.getText(),
-                        pwd.getText());
-                //在子线程中更新FX组件会被认为是不安全的而抛出异常,此时使用主线程进行更新FX组件即可
+                        accountStr,
+                        pwdStr);
+                //在子线程中更新FX组件会被认为是不安全的而抛出异常,此时使用主线程(Platform本质上非异步操作)进行更新FX组件即可
                 Platform.runLater(()->{
                     if (status.equals(ConnectStatus.CONNECTED_POP3)) {
+                        User currentUser=new User(accountStr,pwdStr);
+                        DataBuffer.setCurrentUser(currentUser);
                         MailStage mailStage = new MailStage();
                         mailStage.show();
                         this.close();
@@ -132,18 +138,27 @@ public class LoginStage extends Stage {
                         }
                     } else if (status.equals(ConnectStatus.NO_PROVIDER_FOR_POP3)) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("无法查询到服务器!");
+                        alert.setContentText("无法连接到服务器!");
                         alert.show();
                         confirm.setText("确定");
+                        confirm.setDisable(false);
+                        account.setDisable(false);
+                        pwd.setDisable(false);
                     } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setContentText("账号或密码错误!");
                         alert.show();
                         confirm.setText("确定");
+                        confirm.setDisable(false);
+                        account.setDisable(false);
+                        pwd.setDisable(false);
                     }
                 });
             }).start();
             confirm.setText("连接中...");
+            confirm.setDisable(true);
+            account.setDisable(true);
+            pwd.setDisable(true);
         });
     }
 
