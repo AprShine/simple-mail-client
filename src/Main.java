@@ -8,6 +8,8 @@ import ui.WelcomeStage;
  * @author AprShine
  */
 public class Main extends Application{
+    /** 主窗口:欢迎 */
+    public static WelcomeStage welcomeStage;
     public static void main(String[] args) {
         launch(args);
     }
@@ -15,7 +17,7 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         //不使用传递的形参,采用自己创建的Stage类
-        WelcomeStage welcomeStage =new WelcomeStage();
+        welcomeStage =new WelcomeStage();
         //显示相应的UI界面
         welcomeStage.show();
     }

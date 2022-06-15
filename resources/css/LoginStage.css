@@ -1,7 +1,21 @@
+#root{
+    -fx-background-color: rgb(255, 255, 255);
+}
+#section{
+    -fx-font-size: 24;
+}
+#tip{
+    -fx-font-size: 18;
+}
 .field{
-    -fx-max-width: 520;
+    -fx-max-width: 500;
+    -fx-font-size: 18;
+    -fx-padding: 8;
 }
 
 .hint{
-    
+    -fx-font-size: 18;
+}
+#bottom{
+    -fx-background-color: rgb(230, 230, 230);
 }
