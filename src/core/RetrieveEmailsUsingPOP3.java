@@ -1,7 +1,7 @@
 /**
  * 
  */
-package mail;
+package core;
 
 import util.ConnectStatus;
 
