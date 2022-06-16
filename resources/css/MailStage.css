@@ -41,7 +41,18 @@
  -fx-background-color: rgba(118,238,198,0.1);
 }
 #top{
-    -fx-min-height: 80;
+    -fx-min-height: 90;
+    -fx-spacing: 10;
+    -fx-padding: 5;
+}
+#top_toUser{
+    -fx-spacing: 10;
+    -fx-alignment: center;
+}
+#top_fromUser{
+    -fx-alignment: center-left;
+    -fx-spacing: 20;
+    -fx-padding: 10;
 }
 #editor{
 

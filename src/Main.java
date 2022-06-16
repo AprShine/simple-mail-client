@@ -20,8 +20,8 @@ public class Main extends Application{
         //不使用传递的形参,采用自己创建的Stage类
         welcomeStage =new WelcomeStage();
 //        //显示相应的UI界面
-//        welcomeStage.show();
-        MailStage mailStage=new MailStage();
-        mailStage.show();
+        welcomeStage.show();
+//        MailStage mailStage=new MailStage();
+//        mailStage.show();
     }
 }
