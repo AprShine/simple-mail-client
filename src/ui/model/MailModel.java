@@ -3,11 +3,18 @@ package ui.model;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import javax.mail.internet.MimeBodyPart;
+import java.util.List;
+
 public class MailModel {
-    private SimpleStringProperty fromUser=new SimpleStringProperty();
-    private SimpleStringProperty sendDate=new SimpleStringProperty();
-    private SimpleStringProperty subject=new SimpleStringProperty();
-    private SimpleBooleanProperty isAttachBool=new SimpleBooleanProperty();
+    private final SimpleStringProperty fromUser=new SimpleStringProperty();
+    private final SimpleStringProperty sendDate=new SimpleStringProperty();
+    private final SimpleStringProperty subject=new SimpleStringProperty();
+    private final SimpleBooleanProperty isAttachBool=new SimpleBooleanProperty();
+
+    private String Content;
+
+    private List<MimeBodyPart> attachFile;
 
     public MailModel(String fromUser,String sendDate,String subject,boolean isAttachBool){
         assert false;
@@ -15,6 +22,22 @@ public class MailModel {
         this.sendDate.set(sendDate);
         this.subject.set(subject);
         this.isAttachBool.set(isAttachBool);
+    }
+
+    public void setAttachFile(List<MimeBodyPart> attachFile) {
+        this.attachFile = attachFile;
+    }
+
+    public List<MimeBodyPart> getAttachFile() {
+        return attachFile;
+    }
+
+    public void setContent(String content) {
+        Content = content;
+    }
+
+    public String getContent() {
+        return Content;
     }
 
     public String getFromUser() {
@@ -27,6 +50,9 @@ public class MailModel {
 
     public String getSubject() {
         return subject.get();
+    }
+    public boolean getIsAttachBool(){
+        return isAttachBool.get();
     }
     public SimpleStringProperty getFromUserProperty(){
         return fromUser;

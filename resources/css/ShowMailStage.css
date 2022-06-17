@@ -1,0 +1,23 @@
+#topBox{
+    -fx-alignment: center;
+    -fx-spacing: 50;
+}
+#subjectBox{
+    -fx-alignment: center;
+}
+#downloadBox{
+    -fx-alignment: center;
+    -fx-min-height: 40;
+}
+.topLabel{
+    -fx-text-fill: rgb(139, 139, 122);
+    -fx-font-size: 20;
+}
+
+#subject{
+    -fx-min-height: 50;
+    -fx-font-size: 30;
+}
+#webView{
+    -fx-min-height: 680;
+}

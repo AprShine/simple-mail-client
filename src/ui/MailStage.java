@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -20,10 +21,10 @@ import java.io.IOException;
  * */
 public class MailStage extends Stage {
     //列表组件,便于更新
-
+    private final TableView<MailModel> mailTable=new TableView<>();
     public MailStage(){
         init();
-//        initInBox();
+        initInBox();
         addComponent();
     }
 
@@ -34,6 +35,8 @@ public class MailStage extends Stage {
                     MailUtil.POP3SSLPort,
                     DataBuffer.getCurrentUser().getAccount(),
                     DataBuffer.getCurrentUser().getPwd(),MailUtil.secureConfig);
+            DataBuffer.mailTableModel.forEach(mailModel ->
+                    mailTable.getItems().add(mailModel));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,7 +69,6 @@ public class MailStage extends Stage {
         writeMail.getStyleClass().add("buttonBox");
         inboxLabel.getStyleClass().add(("buttonLabel"));
         writeLabel.getStyleClass().add("buttonLabel");
-        TableView<MailModel> mailTable=new TableView<>();
         mailTable.setId("table");
         TableColumn<MailModel,String> fromUser=new TableColumn<>("发件人");
         fromUser.setCellValueFactory(param -> param.getValue().getFromUserProperty());
@@ -90,7 +92,6 @@ public class MailStage extends Stage {
         right.getChildren().add(mailTable);
         root.getChildren().addAll(left,right);
         //添加监听器
-        mailTable.getItems().add(new MailModel("哈哈哈","2002-04-26","给你的邮件",true));
         writeMail.setOnMouseClicked(event -> {
             right.getChildren().remove(0);
             right.getChildren().add(writePane);
@@ -102,6 +103,13 @@ public class MailStage extends Stage {
             right.getChildren().add(mailTable);
             inbox.setId("buttonBoxClicked");
             writeMail.setId("");
+        });
+        mailTable.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if(event.getClickCount()==2){
+                System.out.println("yes");
+                new ShowMailStage(mailTable.getSelectionModel().
+                        selectedItemProperty().get()).show();
+            }
         });
     }
 }

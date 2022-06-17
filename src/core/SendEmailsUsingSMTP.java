@@ -147,31 +147,4 @@ public class SendEmailsUsingSMTP {
 	        }//end catch block
 			return false;
 	    }
-  	
-
-//  	public static void main(String[] args) {
-//
-//		  String serverName = "smtp.mail.yahoo.com";		// smtp.zoho.com , smtp.mail.yahoo.com , smtp.rediffmail.com
-//		  String portNo = "465";							// 465 , 587 , 25
-//		  String secureConnection = "ssl";					// ssl , tls , never
-//		  String userName = "youremail@test.com";
-//		  String password = "password";
-//		  String toEmail = "receiveremail@test.com";
-//		  String subject = "New Assessment mail";
-//		  String msg = "<h1> This is test mail please ignore... </h1>";
-//
-//		// attachments
-//	        String[] attachFiles = new String[3];
-//	        attachFiles[0] = "D:/test1.html";
-//	        attachFiles[1] = "D:/test2.txt";
-//	        attachFiles[2] = "D:/test3.txt";
-//
-//		  SendEmailsUsingSMTP oe = new SendEmailsUsingSMTP();
-//		  oe.connectAndSendSmtp(serverName, portNo, secureConnection, userName, password, toEmail, subject, msg, attachFiles);
-//		  // Uncomment below methods to check stepwise or as per your use
-//		  //oe.createSession(userName, password);
-//		  //oe.emailSettings(serverName, portNo, secureConnection);
-//		  //oe.sendMessage(userName, toEmail, subject, msg);
-//
-//	}
 }

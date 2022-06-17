@@ -3,11 +3,14 @@
  */
 package core;
 
+import ui.model.MailModel;
 import util.ConnectStatus;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -19,13 +22,25 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeUtility;
+
 /**
  * @author AprShine
  *
  */
 public class RetrieveEmailsUsingPOP3 {
-	
+
+    /**
+     *接受所有收件箱信件
+     * @param host 服务器域名
+     * @param port 服务器端口号
+     * @param userName 用户名
+     * @param password 密码
+     * @param secureCon 安全协议
+     * @throws IOException IO异常
+     */
 	public void getCompleteInbox(String host, String port, String userName, String password, String secureCon) throws IOException {
         Properties properties = new Properties();
  
@@ -59,24 +74,18 @@ public class RetrieveEmailsUsingPOP3 {
             folderInbox.open(Folder.READ_ONLY);
  
             // fetches new messages from server
-            Message[] arrayMessages = folderInbox.getMessages();
-            DataBuffer.inboxMail=arrayMessages;
-            System.out.println("You have "+arrayMessages.length+" mails in your INBOX");
-             
-            for (int i = 0; i < arrayMessages.length ; i++) {
-                Message message = arrayMessages[i];
-                Address[] fromAddress = message.getFrom();
-               
-                String from = fromAddress[0].toString();
-                Date sentdate = message.getSentDate();
-                String subject= message.getSubject();
-               
+            Message[] inboxMail= folderInbox.getMessages();
+            System.out.println("You have "+inboxMail.length+" mails in your INBOX");
+            //对每封邮件进行遍历,得出TableModel
+            for(Message message:inboxMail){
+                String from=getFrom(message);
+                String sendDate=new SimpleDateFormat("yyyy.MM.dd HH:mm")
+                        .format(message.getSentDate());
+                String subject=message.getSubject();
                 String contentType = message.getContentType();
                 String messageContent = "";
- 
-                // store attachment file name, separated by comma
-                String attachFiles = "";
-                
+                StringBuilder attachFiles = new StringBuilder();
+                List<MimeBodyPart> mimeBodyPartList=new ArrayList<>();
                 if (contentType.contains("multipart")) {
                     // content may contain attachments
                     Multipart multiPart = (Multipart) message.getContent();
@@ -85,19 +94,20 @@ public class RetrieveEmailsUsingPOP3 {
                         MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);
                         if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
                             // this part is attachment
-                        	 String fileName = part.getFileName();
-                             attachFiles += fileName + ", ";
-                             part.saveFile("./attach" + File.separator + fileName); // hard code service file storage here
-                             messageContent = getText(message);  // to get message body of attached emails   
-                       }
-                    
-                         else {
+                            String fileName = MimeUtility.decodeText(part.getFileName());
+                            attachFiles.append(fileName).append(", ");
+                            mimeBodyPartList.add(part);
+//                            part.saveFile("./attach" + File.separator + fileName); // hard code service file storage here
+                            messageContent = getText(message);  // to get message body of attached emails
+                        }
+
+                        else {
                             // this part for the message content
                             messageContent = part.getContent().toString();
-                      }
+                        }
                     }
-                     if (attachFiles.length() > 1) {
-                        attachFiles = attachFiles.substring(0, attachFiles.length() - 2);
+                    if (attachFiles.length() > 1) {
+                        attachFiles = new StringBuilder(attachFiles.substring(0, attachFiles.length() - 2));
                     }
                 } else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
                     Object content = message.getContent();
@@ -105,16 +115,13 @@ public class RetrieveEmailsUsingPOP3 {
                         messageContent = content.toString();
                     }
                 }
-                // print out details of each message and save this data into DB here
-                System.out.println("\t \n Message #" + (i + 1) + ":");
-                System.out.println("\t From: " + from);
-                System.out.println("\t Subject: " + subject);
-                System.out.println("\t Sent Date: " + sentdate);
-                System.out.println("\t Message: " + messageContent);
-                System.out.println("\t Attachments: " + attachFiles);
-                System.out.println();
-                System.out.println("\n ------------------------------ \n");
-              }
+                //添加到列表中
+                MailModel mailModel= new MailModel(from,sendDate,subject,!attachFiles.toString().equals(""));
+                //设置内容和附件
+                mailModel.setContent(messageContent);
+                mailModel.setAttachFile(mimeBodyPartList);
+                DataBuffer.mailTableModel.add(mailModel);
+            }
             // disconnect
             folderInbox.close(false);
             store.close();
@@ -126,11 +133,17 @@ public class RetrieveEmailsUsingPOP3 {
             ex.printStackTrace();
         }
 	}
- /** 检验是否能够连接上服务器 */
+
+ /** 方法:检验是否能够连接上服务器
+  * @return ConnectStatus
+  * @param host 服务器主机名
+  * @param port 服务器端口号
+  * @param userName 用户名
+  * @param password 授权码
+  */
     public static ConnectStatus getConnectionStatus(String host, String port, String userName, String password){
         //链接属性集
     	  Properties properties = new Properties();
-    	  
           //---------- Server Setting---------------
           properties.put("mail.pop3.host", host);
           properties.put("mail.pop3.port", port);
@@ -153,29 +166,26 @@ public class RetrieveEmailsUsingPOP3 {
               System.out.println("Is Connected: "+ isConnected);
               System.out.println("Connected to mail via "+host);
         }catch (NoSuchProviderException ex) {
-        	ConnectStatus ex1=ConnectStatus.NO_PROVIDER_FOR_POP3;
-            System.out.println(ex1);
-            return ex1;
+        	isConnected=ConnectStatus.NO_PROVIDER_FOR_POP3;
+            System.out.println(isConnected);
         } catch (MessagingException ex) {
-        	ConnectStatus ex2 = ConnectStatus.COULD_NOT_CONNECT;
-            System.out.println(ex2);
-            return ex2;
-            //ex.printStackTrace();
+        	isConnected = ConnectStatus.COULD_NOT_CONNECT;
+            System.out.println(isConnected);
         }
 		return isConnected;
     }
     
     
     /**
-     *  This method is use to handle MIME message. 
+     *  This method is used to handle MIME message.
      *  a message with an attachment is represented in MIME as a multipart message. 
      *  In the simple case, the results of the Message object's getContent method will be a MimeMultipart object. 
      *  The first body part of the multipart object wil be the main text of the message. 
      *  The other body parts will be attachments. 
-     * @param p
-     * @return
-     * @throws MessagingException
-     * @throws IOException
+     * @param p Part
+     * @return Text
+     * @throws MessagingException 消息异常
+     * @throws IOException IO异常
      */
     
  	public static String getText(Part p) throws MessagingException, IOException {
@@ -214,4 +224,30 @@ public class RetrieveEmailsUsingPOP3 {
 
  return null;
  	}
+
+    /**
+     *
+     * @param msg 信息
+     * @return fromUser
+     * @throws MessagingException 信息异常
+     * @throws UnsupportedEncodingException 无法解码异常
+     */
+    public static String getFrom(Message msg) throws MessagingException, UnsupportedEncodingException {
+        String from;
+        Address[] froms = msg.getFrom();
+        if (froms.length < 1)
+            throw new MessagingException("没有发件人!");
+
+        InternetAddress address = (InternetAddress) froms[0];
+        String person = address.getPersonal();
+        if (person != null) {
+            person = MimeUtility.decodeText(person) + " ";
+        } else {
+            person = "";
+        }
+        from = person + "<" + address.getAddress() + ">";
+
+        return from;
+    }
+
 }

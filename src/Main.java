@@ -2,6 +2,7 @@ import javafx.stage.Stage;
 import javafx.application.Application;
 
 import ui.MailStage;
+import ui.ShowMailStage;
 import ui.WelcomeStage;
 
 /**
@@ -21,7 +22,6 @@ public class Main extends Application{
         welcomeStage =new WelcomeStage();
 //        //显示相应的UI界面
         welcomeStage.show();
-//        MailStage mailStage=new MailStage();
-//        mailStage.show();
+
     }
 }
