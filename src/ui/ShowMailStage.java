@@ -14,6 +14,7 @@ import ui.model.MailModel;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeUtility;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -60,20 +61,24 @@ public class ShowMailStage extends Stage {
             download.setOnAction(event -> {
                 DirectoryChooser directoryChooser=new DirectoryChooser();
                 directoryChooser.setTitle("选择附件保存路径");
-
                 mailModel.getAttachFile().forEach(mimeBodyPart -> {
                     try {
-                        mimeBodyPart.saveFile(directoryChooser.showDialog(this) +
-                                MimeUtility.decodeText(mimeBodyPart.getFileName()));
-                        Alert alert= new Alert(Alert.AlertType.INFORMATION);
-                        alert.setContentText("保存成功");
-                        alert.show();
+
+                        File file=directoryChooser.showDialog(this);
+                        if(file!=null) {
+                            mimeBodyPart.saveFile(file.getAbsolutePath() +
+                                    MimeUtility.decodeText(mimeBodyPart.getFileName()));
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText("保存成功");
+                            alert.show();
+                        }
                     } catch (IOException | MessagingException e) {
                         e.printStackTrace();
                         Alert alert=new Alert(Alert.AlertType.ERROR);
                         alert.setContentText("保存失败");
                         alert.show();
                     }
+
                 });
             });
             downloadBox.getChildren().add(download);
