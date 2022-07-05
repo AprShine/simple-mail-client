@@ -1,6 +1,3 @@
-/**
- * 
- */
 package core;
 
 import ui.model.MailModel;
@@ -182,10 +179,14 @@ public class RetrieveEmailsUsingPOP3 {
      *  In the simple case, the results of the Message object's getContent method will be a MimeMultipart object. 
      *  The first body part of the multipart object wil be the main text of the message. 
      *  The other body parts will be attachments. 
-     * @param p Part
-     * @return Text
-     * @throws MessagingException 消息异常
-     * @throws IOException IO异常
+     * @param p
+     *              Part
+     * @return
+     *              Text
+     * @throws MessagingException
+     *              消息异常
+     * @throws IOException
+     *              IO异常
      */
     
  	public static String getText(Part p) throws MessagingException, IOException {

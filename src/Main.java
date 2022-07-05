@@ -1,8 +1,6 @@
 import javafx.stage.Stage;
 import javafx.application.Application;
 
-import ui.MailStage;
-import ui.ShowMailStage;
 import ui.WelcomeStage;
 
 /**
