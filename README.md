@@ -1,26 +1,25 @@
-# javaMail
-My Java Curriculum Design
+## Simple Mail Client with SMTP/POP3
 
-我的中南大学Java期末课设
+### 项目简介
 
-## 运行环境
-+ java 1.8
-+ javaMail Package
-+ javaFX 8
+一个使用java开发的邮件客户端，可以通过SMTP协议和POP3协议实现邮件的收发，以及简单的用户登录功能。
 
-Java 8环境中内置的JavaFX,不需要使用FX SDK即可运行.
+项目的UI如下所示（模仿的Windows Mail客户端UI）：
+![image-20230307203536306](images_md/image-20230307203536306.png)
 
-不过该版本FX属于比较老的SDK,没有使用fxml写页面.
+### 安装教程
 
-## 项目信息
-+ 构建时间: _2022.6_
-+ 用途: _可以用来本地收发邮件以及附件_
+运行项目，需要先拥有以下依赖：
 
-## 基本功能
-+ 利用SMTP/POP3协议登录邮件客户端并收发邮件
-+ 使用JavaFX构建GUI
-+ 可以本地编辑邮件
-+ 支持附件的发送和接收
+1. java.mail类库，项目lib中有，用以获取SMTP以及POP3 API
+2. javaFX，项目UI依赖于JavaFX
+3. java1.8，项目使用java8进行开发，其他java版本暂时未做测试，请知悉。
 
-## 最后
-有用的话点个Star喵~
+### 使用说明
+
+项目并未使用maven等构建工具进行构建，是javaFX原生项目，因为是学习时写的简单工具，所以并没有很高的拓展性。
+
+### 最后
+
+如果感到有帮助欢迎star喵，点个star谢谢喵~
+
